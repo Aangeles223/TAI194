@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from typing import Optional
 
 app = FastAPI(
@@ -14,53 +14,32 @@ lista=[
     {"id":4, "nombre":"Perla","edad":21}
 ]
 
-
+#ruta o EndPoint
 @app.get("/", tags=['Inicio'])
 def main():
     return{"HELLO": "Hello World"}
 
+#EndPoint CONSULTA TODOS
+@app.get("/todosLista", tags=['Operaciones CRUD'])
+def leer():
+    return{"Lista Registrado": lista}
 
-#EndPoint promedio
-@app.get("/promedio", tags=['Mi calificacion'])
-def promedio():
-    return 10.5
-
-
-#EndPoint con parametro obligatorio
-@app.get("/usuario/{id}", tags=['Endpoint parametro obligatorio'])
-def consultausuario(id:int):
-    #caso ficticia de busqueda en BD
-    return {"Se encontro el usuario":id}
-
-#EndPoint con parametro opcional
-@app.get("/usuario2/", tags=['Endpoint parametro opcional'])
-def consultausuario2(id: Optional[int]=None):
-    if id is not None:
-        for usuario in lista:
-            if usuario["id"] == id:
-                return {"Mensaje":"usuario encontrado","El usuario es:":usuario}
-        return {"mensaje":f"No se encontro el id: {id}"}
-    return {"mensaje:":"No se proporciono un ID"}
+#EndPoint POST
+@app.post("/lista/", tags=['Operaciones CRUD'])
+def insert(usuario:dict):
+    for usr in lista:
+        if usr["id"] == usuario.get("id"):
+            raise HTTPException(status_code=400,detail="El usuario ya existe")
+    
+    lista.append(usuario)
+    return usuario
 
 
-    #endpoint con varios parametro opcionales
-@app.get("/usuarios/", tags=["3 parámetros opcionales"])
-async def consulta_usuarios(
-    id: Optional[int] = None,
-    nombre: Optional[str] = None,
-    edad: Optional[int] = None
-):
-    resultados = []
-
-    for usuario in lista:
-        if (
-            (id is None or usuario["id"] == id) and
-            (nombre is None or usuario["nombre"].lower() == nombre.lower()) and
-            (edad is None or usuario["edad"] == edad)
-        ):
-            resultados.append(usuario)
-
-    if resultados:
-        return {"usuarios_encontrados": resultados}
-    else:
-        return {"mensaje": "No se encontraron usuarios que coincidan con los parámetros proporcionados."}
+#EndPoint POST
+@app.put("/lista2/{id}", tags=['Operaciones CRUD'])
+def actualizar(id:int,usuarioActualizado:dict):
+    for index, usr in enumerate(lista):
+        if usr["id"] == id:
+            lista[index].update(usuarioActualizado)
+            return lista[index]
+    raise HTTPException(status_code=400,detail="El usuario no existe")       
