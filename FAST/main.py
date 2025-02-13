@@ -35,7 +35,7 @@ def insert(usuario:dict):
     return usuario
 
 
-#EndPoint POST
+#EndPoint PUT
 @app.put("/lista2/{id}", tags=['Operaciones CRUD'])
 def actualizar(id:int,usuarioActualizado:dict):
     for index, usr in enumerate(lista):
@@ -43,3 +43,13 @@ def actualizar(id:int,usuarioActualizado:dict):
             lista[index].update(usuarioActualizado)
             return lista[index]
     raise HTTPException(status_code=400,detail="El usuario no existe")       
+
+
+#EndPoint DELETE
+@app.delete("/lista2/{id}", tags=['Operaciones CRUD'])
+def borrar(id:int):
+    for index, usr in enumerate(lista):
+        if usr["id"] == id:
+            lista.pop(index)
+            return{"Lista Registrado": lista}
+    raise HTTPException(status_code=400,detail="El usuario no existe")  
