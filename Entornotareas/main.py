@@ -54,7 +54,7 @@ def consultartarea(id: Optional[int]=None):
     return {"mensaje:":"No se proporciono un ID"}
 
 #EndPoint Crear una nueva tarea
-@app.post("/Tareas/", tags=['Tareas'])
+@app.post("/Tarea/", tags=['Tareas'])
 def insert(tarea:dict):
     for usr in Tareas:
         if usr["id"] == tarea.get("id"):
