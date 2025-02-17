@@ -44,7 +44,7 @@ def leer():
     return{"Tareas Registradas": Tareas}
 
 #Obtener tarea por id
-@app.get("/Tareas/{id}", tags=['Tareas'])
+@app.get("/Tarea/{id}", tags=['Tareas'])
 def consultartarea(id: Optional[int]=None):
     if id is not None:
         for tarea in Tareas:
