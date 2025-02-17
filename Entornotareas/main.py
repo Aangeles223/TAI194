@@ -39,7 +39,7 @@ def main():
     return{"HELLO": "Hello World"}
 
 #EndPoint CONSULTA TODOS
-@app.get("/Tareas/", tags=['Tareas'])
+@app.get("/Tarea/", tags=['Tareas'])
 def leer():
     return{"Tareas Registradas": Tareas}
 
