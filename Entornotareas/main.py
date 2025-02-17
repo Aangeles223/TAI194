@@ -7,7 +7,7 @@ app = FastAPI(
     version="2.0.1"
 )
 
-Tareas=[
+Tarea=[
     {"id":1, 
      "titulo":"Estudiar para el examen",
      "descripcion":"Repasar los apuntes de TAI",
