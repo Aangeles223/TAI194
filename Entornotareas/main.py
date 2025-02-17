@@ -64,7 +64,7 @@ def insert(tarea:dict):
     return tarea
 
 #EndPoint Actualizar la tarea
-@app.put("/Tareas/{id}", tags=['Tareas'])
+@app.put("/Tarea/{id}", tags=['Tareas'])
 def actualizar(id:int,tareaActualizada:dict):
     for index, usr in enumerate(Tareas):
         if usr["id"] == id:
