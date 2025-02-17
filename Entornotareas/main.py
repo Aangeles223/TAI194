@@ -34,17 +34,17 @@ Tareas=[
 ]
 
 #ruta o EndPoint
-@app.get("/", tags=['Inicio'])
+@app.get("/Entornotareas", tags=['Inicio'])
 def main():
     return{"HELLO": "Hello World"}
 
 #EndPoint CONSULTA TODOS
-@app.get("/todasTareas", tags=['Tareas'])
+@app.get("/Tareas/", tags=['Tareas'])
 def leer():
     return{"Tareas Registradas": Tareas}
 
 #Obtener tarea por id
-@app.get("/tareas/", tags=['Tareas'])
+@app.get("/Tareas/{id}", tags=['Tareas'])
 def consultartarea(id: Optional[int]=None):
     if id is not None:
         for tarea in Tareas:
