@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from typing import Optional, List
-from models import modelUsuario
+from models import modelUsuario, modelAuth
+from genToken import createToken
 
 app = FastAPI(
     title="Mi primer API", 
@@ -19,6 +20,17 @@ lista=[
 @app.get("/", tags=['Inicio'])
 def main():
     return{"HELLO": "Hello World"}
+
+#ruta o EndPoint
+@app.post("/auth", tags=['Autentificacion'])
+def auth(credenciales:modelAuth):
+    if credenciales.mail == 'asasas@gmail.com' and credenciales.passw == '1234567':
+        token: str = createToken(credenciales.model_dump())
+        print(token)
+        return{"Aviso": "Token Generado"}
+    else:
+        return{"Error": "Credenciales incorrectas"}
+
 
 #EndPoint CONSULTA TODOS
 @app.get("/todosLista", response_model=List[modelUsuario], tags=['Operaciones CRUD'])
