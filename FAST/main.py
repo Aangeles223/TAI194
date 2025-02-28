@@ -24,7 +24,7 @@ def main():
 #ruta o EndPoint
 @app.post("/auth", tags=['Autentificacion'])
 def auth(credenciales:modelAuth):
-    if credenciales.mail == 'asasas@gmail.com' and credenciales.passw == '1234567':
+    if credenciales.mail == 'asasas@gmail.com' and credenciales.passw == '123456789':
         token: str = createToken(credenciales.model_dump())
         print(token)
         return{"Aviso": "Token Generado"}
