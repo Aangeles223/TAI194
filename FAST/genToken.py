@@ -8,7 +8,7 @@ def createToken(data:dict):
 
 def validateToken(token:str):
     try:
-        data:dict = jwt.decode(token,key='secretKey', algorithm=['HS256'])
+        data:dict = jwt.decode(token,key='secretKey', algorithms=['HS256'])
         return data
     except ExpiredSignatureError:
         raise HTTPException(status_code=403, detail="Token Expirado")

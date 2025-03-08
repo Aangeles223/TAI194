@@ -1,7 +1,10 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.responses import JSONResponse
 from typing import Optional, List
 from models import modelUsuario, modelAuth
 from genToken import createToken
+from middlewares import BearerJWT
+
 
 app = FastAPI(
     title="Mi primer API", 
@@ -23,19 +26,19 @@ def main():
 
 #ruta o EndPoint
 @app.post("/auth", tags=['Autentificacion'])
-def auth(credenciales:modelAuth):
+def login(credenciales:modelAuth):
     if credenciales.mail == 'asasas@gmail.com' and credenciales.passw == '123456789':
         token: str = createToken(credenciales.model_dump())
         print(token)
-        return{"Aviso": "Token Generado"}
+        return JSONResponse(content= token)
     else:
         return{"Error": "Credenciales incorrectas"}
 
-
-#EndPoint CONSULTA TODOS
-@app.get("/todosLista", response_model=List[modelUsuario], tags=['Operaciones CRUD'])
-def leer():
+# Enpoint CONSULTA TODOS
+@app.get("/todosUsuarios/", response_model=List[modelUsuario], tags=['Operaciones CRUD'])
+def leer(token: dict = Depends(BearerJWT())):
     return lista
+
 
 #EndPoint POST
 @app.post("/lista/", response_model= modelUsuario, tags=['Operaciones CRUD'])
